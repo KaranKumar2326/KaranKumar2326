@@ -1,5 +1,6 @@
 name: Generate Snake
 
+# Controls when the action will run. This action runs every 6 hours.
 on:
   schedule:
     - cron: "0 */6 * * *"  # Runs every 6 hours
@@ -14,37 +15,27 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'  # Use Node.js 20 to avoid future warnings
+          node-version: '20'  # Set Node.js version to 20 to avoid deprecation warnings
 
-      # Step 2: Checkout repository code
+      # Step 2: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
-      
-      # Step 3: Create dist directory (if it doesn’t exist)
-      - name: Create dist directory
-        run: mkdir -p dist
 
-      # Step 4: Generate the snake
+      # Step 3: Generate the snake contribution graph
       - name: Generate Snake
-        uses: Platane/snk@master
+        uses: Platane/snk@v2
         with:
           github_user_name: KaranKumar2326  # Replace with your GitHub username
-          gif_out_path: dist/github-contribution-grid-snake.gif
           svg_out_path: dist/github-contribution-grid-snake.svg
 
-      # Step 5: Show the status of the build for debugging
-      - name: Check the status of the build
-        run: git status
-
-      # Step 6: Push the generated files to the output branch
+      # Step 4: Commit and Push the generated snake to the output branch
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "Generated snake contribution grid"
-          branch: output
-          file_pattern: dist/github-contribution-grid-snake.*
+          commit_message: "Generated snake contribution graph"
+          branch: output  # Push the SVG to the "output" branch
+          file_pattern: dist/github-contribution-grid-snake.svg
 
-      # Step 7: Show directory structure after build
+      # Step 5: Optional: Show directory structure after build for debugging
       - name: Show directory structure after build
         run: ls -la dist
-s
