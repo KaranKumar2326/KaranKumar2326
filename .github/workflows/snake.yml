@@ -20,20 +20,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 3: Generate the snake contribution graph using the latest version of the action
+      # Step 3: Generate the snake contribution graph
       - name: Generate Snake
         uses: Platane/snk@master
         with:
-          github_user_name: KaranKumar2326  # Replace with your correct GitHub username
+          github_user_name: KaranKumar2326  # Replace with your GitHub username
 
       # Step 4: Commit and Push the generated snake to the output branch
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Generated snake contribution graph"
-          branch: output  # Push the SVG to the "output" branch
-          file_pattern: dist/github-contribution-grid-snake.svg
+          branch: output  # Push to "output" branch
+          file_pattern: github-contribution-grid-snake.svg
 
-      # Step 5: Optional: Show directory structure after build for debugging
-      - name: Show directory structure after build
-        run: ls -la dist
