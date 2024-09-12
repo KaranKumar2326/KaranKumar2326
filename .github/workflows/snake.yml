@@ -10,14 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository code
+      # Step 1: Set up Node.js (explicitly set Node.js version)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Use Node.js 20 to avoid future warnings
+
+      # Step 2: Checkout repository code
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      # Step 2: Debugging step: Show directory structure before build
-      - name: Show directory structure before build
-        run: ls -la
-
       # Step 3: Create dist directory (if it doesn’t exist)
       - name: Create dist directory
         run: mkdir -p dist
@@ -39,9 +41,10 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Generated snake contribution grid"
-          branch: output  # Ensure that the output branch exists
+          branch: output
           file_pattern: dist/github-contribution-grid-snake.*
 
       # Step 7: Show directory structure after build
       - name: Show directory structure after build
         run: ls -la dist
+s
