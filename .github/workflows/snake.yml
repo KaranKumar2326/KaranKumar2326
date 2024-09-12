@@ -20,12 +20,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 3: Generate the snake contribution graph
+      # Step 3: Generate the snake contribution graph using the latest version of the action
       - name: Generate Snake
-        uses: Platane/snk@v2
+        uses: Platane/snk@master
         with:
-          github_user_name: KaranKumar2326  # Replace with your GitHub username
-          # Removed svg_out_path as it's no longer a valid input
+          github_user_name: KaranKumar2326  # Replace with your correct GitHub username
 
       # Step 4: Commit and Push the generated snake to the output branch
       - name: Commit and Push changes
