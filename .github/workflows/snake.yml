@@ -1,6 +1,5 @@
 name: Generate Snake
 
-# Controls when the action will run. This action runs every 6 hours.
 on:
   schedule:
     - cron: "0 */6 * * *"  # Runs every 6 hours
@@ -26,7 +25,7 @@ jobs:
         uses: Platane/snk@v2
         with:
           github_user_name: KaranKumar2326  # Replace with your GitHub username
-          svg_out_path: dist/github-contribution-grid-snake.svg
+          # Removed svg_out_path as it's no longer a valid input
 
       # Step 4: Commit and Push the generated snake to the output branch
       - name: Commit and Push changes
