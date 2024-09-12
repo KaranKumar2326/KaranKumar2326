@@ -1,52 +1,47 @@
 name: Generate Snake
 
-# Controls when the action will run. This action runs every 6 hours.
 on:
   schedule:
-    # Runs every 6 hours
-    - cron: "0 */6 * * *"
-
-  # Allows running the action manually from the Actions tab.
+    - cron: "0 */6 * * *"  # Runs every 6 hours
   workflow_dispatch:
 
-# The sequence of runs in this workflow:
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     steps:
       # Step 1: Check out the repository code
-      - name: Checkout the repository
-        uses: actions/checkout@v3  # Updated to v3 to avoid Node.js deprecation warnings
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      # Step 2: Debugging step: Show directory structure before build
+      - name: Show directory structure before build
+        run: ls -la
 
-      # Step 2: Generate the snake
+      # Step 3: Create dist directory (if it doesn’t exist)
+      - name: Create dist directory
+        run: mkdir -p dist
+
+      # Step 4: Generate the snake
       - name: Generate Snake
         uses: Platane/snk@master
         with:
           github_user_name: KaranKumar2326  # Replace with your GitHub username
-          # These next 2 lines generate the files on a branch called "output". This keeps the main branch from cluttering up.
           gif_out_path: dist/github-contribution-grid-snake.gif
           svg_out_path: dist/github-contribution-grid-snake.svg
 
-      # Step 3: Show the status of the build for debugging
+      # Step 5: Show the status of the build for debugging
       - name: Check the status of the build
         run: git status
 
-      # Step 4: Push the generated files to the output branch
-      - name: Push the generated snake
-        uses: github-actions-x/commit@v3
+      # Step 6: Push the generated files to the output branch
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: output  # Pushes to the "output" branch
+          commit_message: "Generated snake contribution grid"
+          branch: output  # Ensure that the output branch exists
           file_pattern: dist/github-contribution-grid-snake.*
 
-      # Step 5: Deploy to GitHub Pages (optional)
-      - name: Deploy to GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v2.1.3
-        with:
-          target_branch: output  # Pushes to the output branch
-          build_dir: dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Step 7: Show directory structure after build
+      - name: Show directory structure after build
+        run: ls -la dist
